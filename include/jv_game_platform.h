@@ -1,11 +1,12 @@
 #ifndef JV_GAME_PLATFORM
 #define JV_GAME_PLATFORM
 
+#include "bn_sprite_ptr.h"
+#include "bn_sprite_tiles_ptr.h"
+#include "bn_fixed_point.h"
 #include "bn_rect.h"
-#include "bn_fixed.h"
 #include "bn_keypad.h"
 #include "bn_sprite_animate_actions.h"
-#include "bn_camera_actions.h"
 
 #include "bn_sprite_items_platform_s.h"
 #include "bn_sprite_items_platform_l.h"

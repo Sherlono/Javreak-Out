@@ -87,12 +87,3 @@ void Platform::magnet_decay(){
 }
 
 } // End of jv namespace
-
-void platform_manager(jv::Platform& platform){
-    if(bn::keypad::left_held() && platform.x() > -120){
-        platform.set_x(platform.x() - 2);
-    }else if(bn::keypad::right_held() && platform.x() < 120){
-        platform.set_x(platform.x() + 2);
-    }
-    platform.magnet_decay();
-}
