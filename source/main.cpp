@@ -14,18 +14,8 @@
 #include "common_variable_8x16_sprite_font.h"
 #include "fixed_32x64_sprite_font.h"
 
-#include "bn_sprite_items_platform_s.h"
-#include "bn_sprite_items_platform_l.h"
-
-#include "bn_sprite_items_ball.h"
-#include "bn_sprite_items_power_up.h"
-#include "bn_sprite_items_brick.h"
-
-#include "bn_sprite_palette_items_red_brick.h"
-#include "bn_sprite_palette_items_blue_brick.h"
-#include "bn_sprite_palette_items_yellow_brick.h"
-#include "bn_sprite_palette_items_green_brick.h"
-#include "bn_sprite_palette_items_purple_brick.h"
+#include "jv_constants.h"
+#include "jv_game_manager.h"
 
 #include "bn_regular_bg_items_level1_bg.h"
 #include "bn_regular_bg_items_level2_bg.h"

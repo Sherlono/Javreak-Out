@@ -69,16 +69,13 @@ jv_game_manager.o: \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_green_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_purple_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_platform.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_keypad.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_ball.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_ball.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_animate_actions.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_ptr.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_tiles_ptr.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_animate_actions_fwd.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_platform_s.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_platform_l.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_ball.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_ball.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_powerups.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_power_up.h
@@ -151,16 +148,13 @@ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_pa
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_green_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_purple_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_platform.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_keypad.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_ball.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_ball.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_animate_actions.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_ptr.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_tiles_ptr.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_animate_actions_fwd.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_platform_s.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_platform_l.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_ball.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_ball.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_powerups.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_items_power_up.h:
