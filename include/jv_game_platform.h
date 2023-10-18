@@ -68,6 +68,4 @@ private:
 
 } // End of jv namespace
 
-void platform_manager(jv::Platform& platform);
-
 #endif

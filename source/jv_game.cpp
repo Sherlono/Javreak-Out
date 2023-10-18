@@ -1,10 +1,84 @@
-#include "jv_game_manager.h"
-namespace
+#include "jv_game.h"
+//*
+
+int x_offset, y_offset, score = 0, level = 1, lives = 2;
+
+bn::vector<bn::sprite_ptr, 16> v_score;
+bn::vector<bn::sprite_ptr, 8> v_level, v_lives;
+bn::string<32> txt_string;
+
+namespace jv::game
 {
-/*
+void reset_combo(){
+    if(bn::keypad::a_held() && bn::keypad::b_held() && bn::keypad::start_held() && bn::keypad::select_held()){
+            bn::core::reset();
+    }
+}
+void intro_scene(){
+    bn::regular_bg_ptr intro1_bg = bn::regular_bg_items::intro1.create_bg(0, 0);
+    intro1_bg.set_priority(0);
+    intro1_bg.set_blending_enabled(true);
+    bn::blending::set_fade_alpha(0);
+    
+    for(int i = 0; i < 390; i=i+1){
+        if(i < 60){
+            bn::blending::set_fade_alpha(bn::min(1-bn::fixed(i)/60, bn::fixed(1)));
+        }else if(i >= 240 && i <= 300){
+            bn::blending::set_fade_alpha(bn::max((bn::fixed(i)-240)/60, bn::fixed(0)));
+        }
+        bn::core::update();
+        reset_combo();
+    }
+    bn::blending::set_fade_alpha(0);
+    intro1_bg.set_blending_enabled(false);
+}
+void start_scene(){
+    bn::regular_bg_ptr title_screen = bn::regular_bg_items::title_screen.create_bg(0, 0);
+    title_screen.set_priority(0);
+    title_screen.set_blending_enabled(true);
+    bn::blending::set_fade_alpha(0);
+    int j = 0;
+
+    for(int i = 0; i < 60; i = i+1){
+        j++;
+        bn::blending::set_fade_alpha(bn::min(1-bn::fixed(i)/60, bn::fixed(1)));
+        bn::core::update();
+        if(bn::keypad::any_pressed()){
+            break;
+        }
+        reset_combo();
+    }
+    while(!bn::keypad::any_pressed()){
+        bn::core::update();
+    }
+
+    for(int i = j; i > 0; i = i-1){
+        bn::blending::set_fade_alpha(bn::min(bn::fixed(1)-bn::fixed(i)/60, bn::fixed(1)));
+        bn::core::update();
+        reset_combo();
+    }
+
+    bn::blending::set_fade_alpha(0);
+}
+void hud(bn::sprite_text_generator& text_generator){
+    v_score.clear();
+    v_level.clear();
+    v_lives.clear();
+
+    txt_string = "Score: " + bn::to_string<16>(score);
+    text_generator.generate(-7 * 16, -68, txt_string, v_score);
+    
+    text_generator.set_center_alignment();
+    txt_string = "Level " + bn::to_string<10>(level);
+    text_generator.generate(0, -68, txt_string, v_level);
+
+    text_generator.set_left_alignment();
+    txt_string = "Lives: " + bn::to_string<10>(lives);
+    text_generator.generate(4 * 16, -68, txt_string, v_lives);
+}
 void game_over(bn::sprite_text_generator& text_generator){
-    static int i = -32 - 120;
-    static bn::vector<bn::sprite_ptr, 4> v_game, v_over;
+    int i = -32 - 120;
+    bn::vector<bn::sprite_ptr, 4> v_game, v_over;
 
     while(!bn::keypad::a_pressed() && !bn::keypad::b_pressed()){
         if(i < 0){
@@ -21,10 +95,9 @@ void game_over(bn::sprite_text_generator& text_generator){
     }
     bn::core::reset();
 }
-
 void ball_bounce(jv::Ball& ball, jv::Platform& platform){
-    static bn::fixed BallPlat_diff, d_x;
-    static int Plat_length;
+    bn::fixed BallPlat_diff, d_x;
+    int Plat_length;
 
     // Screen Boundaries
     if((ball.x() <= - SCREEN_X && ball.d_x() < 0) || (ball.x() >= SCREEN_X && ball.d_x() > 0)){
@@ -58,9 +131,8 @@ void ball_bounce(jv::Ball& ball, jv::Platform& platform){
     }
     
 }
-
 void ball_sink(int i, bn::vector<jv::Ball, 6>& basket, jv::Platform& platform, bn::sprite_text_generator& text_generator){
-    int direction = -1 + 2*((lives+level) % 2);
+    int direction = -1 + 2*((lives + level) % 2);
     if(basket[i].y() >= 80 + 8){
         if(basket.size() > 0){                                              // There are extra lives left
             basket.erase(basket.begin() + i);
@@ -76,7 +148,6 @@ void ball_sink(int i, bn::vector<jv::Ball, 6>& basket, jv::Platform& platform, b
         game_over(text_generator);
     }
 }
-
 void brick_break(jv::Ball& ball, bn::vector<jv::Brick, 35>& wall, bn::vector<jv::PowerUp, 6>& powerups){
     for (int i = 0; i < wall.size(); i++) {
         if (ball.get_rect().intersects(wall[i].get_rect())) {
@@ -98,7 +169,6 @@ void brick_break(jv::Ball& ball, bn::vector<jv::Brick, 35>& wall, bn::vector<jv:
         }
     }
 }
-
 void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick, 35>& wall){
     int brick_power = 0;
     x_offset = -32*(columns-1)/2;
@@ -196,9 +266,8 @@ void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick, 35>& w
         break;
     }
 }
-
 void brick_animation(bn::vector<jv::Brick, 35>& wall){
-    static int a = 0, wait_frames = 60*4, duration_frames = 60*1, rows = 7, columns = 6;
+    int a = 0, wait_frames = 60*4, duration_frames = 60*1, rows = 7, columns = 6;
 
     if(a < wait_frames + duration_frames){
         if(a >= wait_frames){
@@ -224,7 +293,6 @@ void brick_animation(bn::vector<jv::Brick, 35>& wall){
         a = 0;
     }
 }
-
 void ball_manager(bn::vector<jv::Ball, 6>& basket, bn::vector<jv::Brick, 35>& wall, bn::vector<jv::PowerUp, 6>& powerups, jv::Platform& platform, bn::sprite_text_generator& text_generator){
     for(int i = 0; i < basket.size(); i++){
         ball_bounce(basket[i], platform);
@@ -233,7 +301,6 @@ void ball_manager(bn::vector<jv::Ball, 6>& basket, bn::vector<jv::Brick, 35>& wa
         ball_sink(i, basket, platform, text_generator);
     }
 }
-
 void platform_manager(jv::Platform& platform){
     if(bn::keypad::left_held() && platform.x() > -120){
         platform.set_x(platform.x() - 2);
@@ -242,7 +309,6 @@ void platform_manager(jv::Platform& platform){
     }
     platform.magnet_decay();
 }
-
 void powerup_manager(bn::vector<jv::Ball, 6>& basket, bn::vector<jv::PowerUp, 6>& powerups, jv::Platform& platform){
     for(int i = 0; i < powerups.size(); i++){
         powerups[i].set_y(powerups[i].y() + bn::fixed(0.5));
@@ -280,7 +346,6 @@ void powerup_manager(bn::vector<jv::Ball, 6>& basket, bn::vector<jv::PowerUp, 6>
         }
     }
 }
-
 void level_manager(bn::vector<jv::Brick, 35>& wall){
     switch((level-1) % 4){
         case 0:
@@ -299,7 +364,75 @@ void level_manager(bn::vector<jv::Brick, 35>& wall){
         default:
         break;
     }
-}
+}    
 
-*/
+void game_scene(){
+    // Background stuff
+    bn::regular_bg_ptr game_bg = bn::regular_bg_items::level1_bg.create_bg(0, 0);
+    game_bg.set_priority(3);
+
+    // Text stuff
+    bn::sprite_text_generator   small_text_generator(common::variable_8x8_sprite_font),
+                                big_text_generator(common::variable_8x16_sprite_font),
+                                huge_text_generator(fixed_32x64_sprite_font);
+    small_text_generator.set_bg_priority(0);
+    big_text_generator.set_bg_priority(0);
+    big_text_generator.set_center_alignment();
+    huge_text_generator.set_bg_priority(0);
+    huge_text_generator.set_center_alignment();
+    bn::vector<bn::sprite_ptr, 16> v_scene_text;
+
+    // Game items
+    jv::Platform platform(0, 65);
+    
+    bn::vector<jv::Ball, 6> basket;
+    bn::vector<jv::Brick, 35> wall;
+    bn::vector<jv::PowerUp, 6> powerups;
+
+    basket.push_back(jv::Ball(0, 16, -bn::fixed(0.2), bn::fixed(0.5)));
+
+    // Level creation
+    level_manager(wall);
+    if(((level/4)%3) == 0){
+        game_bg = bn::regular_bg_items::level1_bg.create_bg(0, 0);
+    }else if(((level/4)%3) == 1){
+        game_bg = bn::regular_bg_items::level2_bg.create_bg(0, 0);
+    }else{
+        game_bg = bn::regular_bg_items::level3_bg.create_bg(0, 0);
+    }
+
+    // Level start
+    while(!bn::keypad::a_pressed() && !bn::keypad::b_pressed()){
+        big_text_generator.generate(0, 0, "Ready?", v_scene_text);
+        hud(small_text_generator);
+        //pause_screen(big_text_generator);
+        platform_manager(platform);
+        brick_animation(wall);
+        bn::core::update();
+        v_scene_text.clear();
+
+        reset_combo();
+    }
+    
+    // Game in progress
+    while(!wall.empty()){
+        hud(small_text_generator);
+
+        platform_manager(platform);
+        ball_manager(basket, wall, powerups, platform, huge_text_generator);
+        powerup_manager(basket, powerups, platform);
+
+        brick_animation(wall);
+
+        bn::core::update();
+
+        reset_combo();
+    }
+
+    level++;
+    platform.reset_position();
+    platform.set_magnetic(false);
+    basket.clear();
+    powerups.clear();
+}
 }
