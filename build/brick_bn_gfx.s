@@ -8,7 +8,7 @@
 @	+ 48 tiles not compressed
 @	Total size: 32 + 1536 = 1568
 @
-@	Time-stamp: 2023-09-19, 01:49:42
+@	Time-stamp: 2023-10-20, 11:32:54
 @	Exported by Cearn's GBA Image Transmogrifier, v0.9.2
 @	( http://www.coranac.com/projects/#grit )
 @
@@ -78,7 +78,7 @@ brick_bn_gfxTiles:
 	.global brick_bn_gfxPal		@ 32 unsigned chars
 	.hidden brick_bn_gfxPal
 brick_bn_gfxPal:
-	.hword 0x7C1F,0x0000,0x14A5,0x2108,0x7FFF,0x0000,0x0000,0x0000
+	.hword 0x7C1F,0x00AC,0x010D,0x01FF,0x7FFF,0x0000,0x0000,0x0000
 	.hword 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000
 
 @}}BLOCK(brick_bn_gfx)

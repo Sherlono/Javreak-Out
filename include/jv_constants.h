@@ -10,7 +10,8 @@
 
 namespace
 {
-constexpr const int SCREEN_X = 120 - 8, SCREEN_Y = 80 - 8;
+constexpr const int SCREEN_X = 120 - 8, SCREEN_Y = 80 - 8,
+                    wait_frames = 60*4, duration_frames = 60*1, rows = 7, columns = 6;
 }
 
 namespace jv
