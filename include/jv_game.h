@@ -7,6 +7,8 @@
 #include "bn_display.h"
 #include "bn_keypad.h"
 #include "bn_regular_bg_ptr.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 #include "bn_blending_actions.h"
 #include "bn_camera_actions.h"
 #include "common_info.h"
@@ -106,9 +108,11 @@ inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
     // Screen Boundaries
     if((ball.x() <= - SCREEN_X && ball.d_x() < 0) || (ball.x() >= SCREEN_X && ball.d_x() > 0)){
         ball.set_delta(-ball.d_x(), ball.d_y());
+        bn::sound_items::ball_bounce.play(0.5);
     }
     if(ball.y() <= - SCREEN_Y){
         ball.set_delta(ball.d_x(), -ball.d_y());
+        bn::sound_items::ball_bounce.play(0.5);
     }
 
     // Platform bounce
@@ -120,8 +124,10 @@ inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
             ball.set_stuck(false);
             if(d_x >= 0){                                   // + d_x +
                 ball.set_delta(d_x, - bn::fixed(1.2));
+                bn::sound_items::ball_bounce.play(0.5);
             }else{                                          // - d_x -
                 ball.set_delta(d_x, - bn::fixed(1.2));
+                bn::sound_items::ball_bounce.play(0.5);
             }
         }else{
             if(!ball.is_stuck()){                           // Is magnetic and not stuck
@@ -130,6 +136,7 @@ inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
             }else if(bn::keypad::a_pressed()){              // Is magnetic and stuck
                 ball.set_stuck(false);
                 ball.set_delta(d_x, -1);
+                bn::sound_items::ball_bounce.play(0.5);
             }
         }
     }
@@ -156,10 +163,12 @@ inline void brick_break(jv::Ball& ball, bn::vector<jv::Brick, 35>& wall, bn::vec
             // Ball is to the Sides
             if((ball.x() >= wall[i].x() + 16 && ball.d_x() < 0) || (ball.x() <= wall[i].x() - 16 && ball.d_x() > 0)){
                 ball.set_delta(-ball.d_x(), ball.d_y());
+                bn::sound_items::ball_bounce.play(0.5);
             }
             // Ball is Above or Bellow
             if((ball.y() <= wall[i].y() - 6 && ball.d_y() > 0) || (ball.y() >= wall[i].y() + 6 && ball.d_y() < 0)){
                 ball.set_delta(ball.d_x(), -ball.d_y());
+                bn::sound_items::ball_bounce.play(0.5);
             }
 
             // Brick breaks
@@ -196,7 +205,8 @@ inline void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick,
                         brick_power = 0;
                     }
                     wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                    delay(5);
+                    bn::sound_items::lay_brick.play(0.5);
+                    delay(10);
                 }
             }
         break;
@@ -218,7 +228,8 @@ inline void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick,
                     }
                     if(i < 2 || i >= columns - 2){
                         wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                        delay(5);
+                        bn::sound_items::lay_brick.play(0.5);
+                        delay(10);
                     }
                 }
             }
@@ -241,7 +252,8 @@ inline void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick,
                     }
                     if(j % 2 == 0){
                         wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                        delay(5);
+                        bn::sound_items::lay_brick.play(0.5);
+                        delay(10);
                     }
                 }
             }
@@ -264,7 +276,8 @@ inline void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick,
                     }
                     if((i+j) % 2 == 0){
                         wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                        delay(5);
+                        bn::sound_items::lay_brick.play(0.5);
+                        delay(10);
                     }
                 }
             }

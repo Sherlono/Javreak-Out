@@ -48,10 +48,14 @@ main.o: \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_common.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_keypad.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_regular_bg_ptr.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending_actions.h \
- C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sound_items.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sound_item.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sound_actions.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sound.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_template_actions.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_limits.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending_actions.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_camera_actions.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_camera_ptr.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_fixed_point.h \
@@ -155,10 +159,14 @@ C:/Users/javie/Desktop/GBADEV/butano-master/butano/hw/include/bn_hw_display_cons
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_common.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_keypad.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_regular_bg_ptr.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending_actions.h:
-C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sound_items.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sound_item.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sound_actions.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sound.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_template_actions.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_limits.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending_actions.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_blending.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_camera_actions.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_camera_ptr.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_fixed_point.h:

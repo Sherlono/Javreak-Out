@@ -98,4 +98,5 @@ void game_scene(jv::Platform& platform, bn::regular_bg_ptr& game_bg){
     // Reset all for next level
     reset_items(platform, basket, powerups);
 }
+
 }
