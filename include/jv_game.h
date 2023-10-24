@@ -72,6 +72,7 @@ inline void hud(bn::sprite_text_generator& text_generator){
     text_generator.generate(4 * 16, -68, txt_string, v_lives);
 }
 inline void pause_screen(bn::sprite_text_generator& text_generator){
+    bn::sound_items::pause.play(0.5);
     v_scene_text.clear();
     text_generator.generate(0, 0, "Pause", v_scene_text);
     bn::core::update();
@@ -79,8 +80,10 @@ inline void pause_screen(bn::sprite_text_generator& text_generator){
         resetcombo();
         bn::core::update();
     }
+    bn::sound_items::unpause.play(0.5);
     v_scene_text.clear();
 }
+
 inline void gameover(){
     bn::sprite_text_generator huge_text_generator(fixed_32x64_sprite_font);
     huge_text_generator.set_bg_priority(0);
@@ -103,7 +106,6 @@ inline void gameover(){
     }
     bn::core::reset();
 }
-
 inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
     bn::fixed BP_diff, d_x;
 
@@ -289,10 +291,10 @@ inline void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick,
     }
 }
 inline void brick_animation(bn::vector<jv::Brick, 35>& wall){
-    if(brick_frames < wait_frames + duration_frames){
-        if(brick_frames >= wait_frames){
+    if(brick_frames < WAIT_FRAMES + DURATION_FRAMES){
+        if(brick_frames >= WAIT_FRAMES){
             for(int i = 0; i < wall.size(); i++){
-                int x = (wall[i].x() - x_offset)/32, y = (wall[i].y() - y_offset)/12, window = (columns+rows) - x - (brick_frames - wait_frames)*5/(columns+rows);
+                int x = (wall[i].x() - x_offset)/32, y = (wall[i].y() - y_offset)/12, window = (columns+rows) - x - (brick_frames - WAIT_FRAMES)*5/(columns+rows);
                 if(y == window){
                     wall[i].get_sprite().set_tiles(bn::sprite_items::brick.tiles_item().create_tiles(1));
                 }else if(y == window - 1){

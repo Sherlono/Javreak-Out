@@ -2,3 +2,7 @@ audio/ball_bounce.wav
 1698070137.0138211
 audio/lay_brick.wav
 1698068777.3637424
+audio/pause.wav
+1698168598.8620086
+audio/unpause.wav
+1698168608.8645284
