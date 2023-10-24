@@ -71,10 +71,12 @@ void game_scene(jv::Platform& platform, bn::regular_bg_ptr& game_bg){
     while(!bn::keypad::a_pressed() && !bn::keypad::b_pressed()){
         v_scene_text.clear();
         big_text_generator.generate(0, 0, "Ready?", v_scene_text);
-        hud(small_text_generator);
-        //pause_screen(big_text_generator);
         platform_manager(platform);
         brick_animation(wall);
+
+        if(bn::keypad::start_pressed()){
+            pause_screen(big_text_generator);
+        }
 
         resetcombo();
         bn::core::update();
@@ -90,13 +92,20 @@ void game_scene(jv::Platform& platform, bn::regular_bg_ptr& game_bg){
         powerup_manager(basket, powerups, platform);
 
         brick_animation(wall);
-
+        
+        if(bn::keypad::start_pressed()){
+            pause_screen(big_text_generator);
+        }
         resetcombo();
         bn::core::update();
     }
 
     // Reset all for next level
-    reset_items(platform, basket, powerups);
+    level++;
+    platform.reset_position();
+    platform.set_magnetic(false);
+    basket.clear();
+    powerups.clear();
 }
 
 }

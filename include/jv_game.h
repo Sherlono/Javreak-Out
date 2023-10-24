@@ -71,6 +71,16 @@ inline void hud(bn::sprite_text_generator& text_generator){
     txt_string = "Lives: " + bn::to_string<10>(lives);
     text_generator.generate(4 * 16, -68, txt_string, v_lives);
 }
+inline void pause_screen(bn::sprite_text_generator& text_generator){
+    v_scene_text.clear();
+    text_generator.generate(0, 0, "Pause", v_scene_text);
+    bn::core::update();
+    while(!bn::keypad::start_pressed()){
+        resetcombo();
+        bn::core::update();
+    }
+    v_scene_text.clear();
+}
 inline void gameover(){
     bn::sprite_text_generator huge_text_generator(fixed_32x64_sprite_font);
     huge_text_generator.set_bg_priority(0);
@@ -94,16 +104,8 @@ inline void gameover(){
     bn::core::reset();
 }
 
-inline void reset_items(jv::Platform& platform, bn::vector<jv::Ball, 6>& basket, bn::vector<jv::PowerUp, 6>& powerups){
-    level++;
-    platform.reset_position();
-    platform.set_magnetic(false);
-    basket.clear();
-    powerups.clear();
-}
 inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
-    bn::fixed BallPlat_diff, d_x;
-    int Plat_length;
+    bn::fixed BP_diff, d_x;
 
     // Screen Boundaries
     if((ball.x() <= - SCREEN_X && ball.d_x() < 0) || (ball.x() >= SCREEN_X && ball.d_x() > 0)){
@@ -117,9 +119,8 @@ inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
 
     // Platform bounce
     if(platform.get_rect().intersects(ball.get_rect()) && ball.d_y() > 0){
-        BallPlat_diff = ball.x() - platform.x();
-        Plat_length = platform.get_length();
-        d_x = BallPlat_diff/(4 + Plat_length/2);
+        BP_diff = ball.x() - platform.x();
+        d_x = BP_diff/(4 + platform.get_length()/2);
         if(!platform.is_magnetic()){                        // Is not magnetic
             ball.set_stuck(false);
             if(d_x >= 0){                                   // + d_x +
