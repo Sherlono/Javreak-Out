@@ -2,7 +2,7 @@
 
 namespace jv
 {
-Brick::Brick(int x, int y, int z = 0, int color = 0, int power = jv::Power::powerless) :
+Brick::Brick(int x, int y, int z = 0, int color = 0, char power = jv::Power::powerless) :
     _brick(bn::sprite_items::brick.create_sprite(x, y)),
     _brick_position(bn::point(x, y)),
     _brick_rect(x, y, 32, 12),
@@ -10,6 +10,7 @@ Brick::Brick(int x, int y, int z = 0, int color = 0, int power = jv::Power::powe
 {
     _brick.set_z_order(z);
     _brick.set_bg_priority(2);
+    _brick.set_blending_enabled(true);
     switch(color % 6){
         case 1:
             _brick.set_palette(red_brick_palette);

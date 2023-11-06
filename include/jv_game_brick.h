@@ -17,7 +17,7 @@ namespace jv
 class Brick
 {
 public:
-    Brick(int x, int y, int z, int color, int power);
+    Brick(int x, int y, int z, int color, char power);
     ~Brick();
 
     // Getters
@@ -28,7 +28,7 @@ public:
         return _brick_position.y();
     }
 
-    [[nodiscard]] int power(){
+    [[nodiscard]] char power(){
         return _power;
     }
 
@@ -53,7 +53,7 @@ private:
     bn::sprite_ptr _brick;
     bn::point _brick_position;
     bn::rect _brick_rect;
-    int _power;
+    char _power;
 };
 
 } // End of jv namespace

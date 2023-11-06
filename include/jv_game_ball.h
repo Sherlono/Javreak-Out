@@ -14,7 +14,6 @@ namespace jv
 class Ball
 {
 public:
-    Ball(bn::fixed x, bn::fixed y);
     Ball(bn::fixed x, bn::fixed y, bn::fixed d_x, bn::fixed d_y);
     ~Ball();
     
@@ -39,6 +38,10 @@ public:
     [[nodiscard]] bool is_stuck(){
         return _stuck;
     }
+    
+    [[nodiscard]] bool is_powerful(){
+        return _powerful;
+    }
 
     [[nodiscard]] bn::rect get_rect(){
         return _ball_rect;
@@ -51,13 +54,13 @@ public:
     void set_x(bn::fixed x);
     void set_y(bn::fixed y);
 
-    void set_stuck_x(bn::fixed stuck_x);
-
     void set_delta(bn::fixed d_x, bn::fixed d_y);
 
+    void set_stuck_x(bn::fixed stuck_x);
     void set_stuck(bool stuck);
-
     void toggle_stuck();
+
+    void set_powerful();
 
     void erase();
 
@@ -72,6 +75,7 @@ private:
     bn::fixed_point _ball_position;
     bn::fixed _delta_x, _delta_y, _stuck_x;
     bn::rect _ball_rect;
+    unsigned int _powerful;
     bool _stuck;
 };
 

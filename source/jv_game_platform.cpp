@@ -2,7 +2,7 @@
 
 namespace jv
 {
-const int mag_duration = 60 * 7;
+constexpr const int mag_duration = 60 * 7;
 
 Platform::Platform(bn::fixed x, bn::fixed y) :
     _platform(bn::sprite_items::platform_s.create_sprite(x, y)),
@@ -13,6 +13,7 @@ Platform::Platform(bn::fixed x, bn::fixed y) :
     _is_long(false)
 {
     _platform.set_z_order(0);
+    _platform.set_blending_enabled(true);
 }
 
 void Platform::set_position(const bn::fixed_point& position){
@@ -53,6 +54,7 @@ void Platform::grow(){
         _plat_rect.set_width(_length);
         _platform = bn::sprite_items::platform_l.create_sprite(_plat_position);
         _platform.set_tiles(bn::sprite_items::platform_l.tiles_item().create_tiles((_is_magnetic + 59)*7/jv::mag_duration)); 
+        _platform.set_blending_enabled(true);
     }
     _is_long = true;
 }
@@ -63,6 +65,7 @@ void Platform::shrink(){
         _plat_rect.set_width(_length);
         _platform = bn::sprite_items::platform_s.create_sprite(_plat_position);
         _platform.set_tiles(bn::sprite_items::platform_s.tiles_item().create_tiles((_is_magnetic + 59)*7/jv::mag_duration));
+        _platform.set_blending_enabled(true);
     }
     _is_long = false;
 }

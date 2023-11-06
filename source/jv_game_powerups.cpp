@@ -2,69 +2,39 @@
 
 namespace jv
 {
-PowerUp::PowerUp(bn::fixed x, bn::fixed y, int power):
-    _pu(bn::sprite_items::power_up.create_sprite(x, y)),
-    _pu_position(bn::fixed_point(x, y)),
-    _pu_rect(x.round_integer(), y.round_integer(), 20, 8),
-    _power(power)
-{
-    _pu.set_z_order(1);
-    _pu.set_bg_priority(1);
-    switch(power % 5){
-        case 0:     // Extra
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(green_brick_palette);
-        break;
-        case 1:     // Large
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(blue_brick_palette);
-        break;
-        case 2:     // Multi
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(red_brick_palette);
-        break;
-        case 3:     // Jackpot
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(yellow_brick_palette);
-        break;
-        case 4:     // Magnetic
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(purple_brick_palette);
-        break;
-
-        default:
-        break;
-    }
-}
-
-PowerUp::PowerUp(int x, int y, int power):
+PowerUp::PowerUp(int x, int y, char power, char z):
     _pu(bn::sprite_items::power_up.create_sprite(x, y)),
     _pu_position(bn::fixed_point(x, y)),
     _pu_rect(x, y, 20, 8),
     _power(power)
 {
-    _pu.set_z_order(1);
-    _pu.set_bg_priority(1);
-    switch(power % 5){
-        case 0:     // Extra
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(green_brick_palette);
-        break;
-        case 1:     // Large
-            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
-            _pu.set_palette(blue_brick_palette);
-        break;
-        case 2:     // Multi
+    _pu.set_z_order(z);
+    _pu.set_bg_priority(0);
+    _pu.set_blending_enabled(true);
+    switch(power){
+        case jv::Power::large:
             _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
             _pu.set_palette(red_brick_palette);
         break;
-        case 3:     // Jackpot
+        case jv::Power::multi:
             _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
             _pu.set_palette(yellow_brick_palette);
         break;
-        case 4:     // Magnetic
+        case jv::Power::magnet:
+            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
+            _pu.set_palette(green_brick_palette);
+        break;
+        case jv::Power::jackpot:
             _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
             _pu.set_palette(purple_brick_palette);
+        break;
+        case jv::Power::extra:
+            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
+            _pu.set_palette(blue_brick_palette);
+        break;
+        case jv::Power::powerful:
+            _pu.set_tiles(bn::sprite_items::power_up.tiles_item().create_tiles(power));
+            _pu.set_palette(orange_brick_palette);
         break;
 
         default:

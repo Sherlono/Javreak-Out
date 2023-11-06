@@ -12,12 +12,14 @@
 #include "bn_blending_actions.h"
 #include "bn_camera_actions.h"
 #include "common_info.h"
+#include "bn_random.h"
 
 #include "bn_regular_bg_items_level1_bg.h"
 #include "bn_regular_bg_items_level2_bg.h"
 #include "bn_regular_bg_items_level3_bg.h"
 #include "bn_regular_bg_items_title_screen.h"
 #include "bn_regular_bg_items_intro1.h"
+#include "bn_regular_bg_items_attract1_bg.h"
 
 #include "common_variable_8x8_sprite_font.h"
 #include "common_variable_8x16_sprite_font.h"
@@ -33,15 +35,16 @@ namespace
 {
 int x_offset, y_offset;
 unsigned int score = 0, level = 1, lives = 2, brick_frames = 0;
+bn::random randomizer;
 
 bn::vector<bn::sprite_ptr, 16> v_score;
 bn::vector<bn::sprite_ptr, 8> v_level, v_lives;
 bn::string<16> txt_string;
 bn::vector<bn::sprite_ptr, 16> v_scene_text;
 
-bn::vector<jv::Ball, 6> basket;
+bn::vector<jv::Ball, 10> basket;
 bn::vector<jv::Brick, 35> wall;
-bn::vector<jv::PowerUp, 6> powerups;
+bn::vector<jv::PowerUp, 10> powerups;
 }
 
 inline void resetcombo(){
@@ -72,7 +75,8 @@ inline void hud(bn::sprite_text_generator& text_generator){
     text_generator.generate(4 * 16, -68, txt_string, v_lives);
 }
 inline void pause_screen(bn::sprite_text_generator& text_generator){
-    bn::sound_items::pause.play(0.5);
+    bn::blending::set_fade_alpha(bn::fixed(0.6));
+    bn::sound_items::pause.play(1.0);
     v_scene_text.clear();
     text_generator.generate(0, 0, "Pause", v_scene_text);
     bn::core::update();
@@ -80,8 +84,27 @@ inline void pause_screen(bn::sprite_text_generator& text_generator){
         resetcombo();
         bn::core::update();
     }
-    bn::sound_items::unpause.play(0.5);
+    bn::blending::set_fade_alpha(bn::fixed(0));
+    bn::sound_items::unpause.play(1.0);
     v_scene_text.clear();
+}
+inline char rng(){
+    int random = randomizer.get_int(100);
+    if(random >= 100 - ODDS){
+        return jv::Power::large;
+    }else if(random >= 100 - (ODDS * 2)){
+        return jv::Power::multi;
+    }else if(random >= 100 - (ODDS * 3)){
+        return jv::Power::magnet;
+    }else if(random >= 100 - (ODDS * 4)){
+        return jv::Power::jackpot;
+    }else if(random >= 100 - (ODDS * 5)){
+        return jv::Power::powerful;
+    }else if(random >= 100 - 1 - (ODDS * 5)){
+        return jv::Power::extra;
+    }else{
+        return jv::Power::powerless;
+    }
 }
 
 inline void gameover(){
@@ -145,7 +168,7 @@ inline void ball_bounce(jv::Ball& ball, jv::Platform& platform){
     }
     
 }
-inline void ball_sink(int i, bn::vector<jv::Ball, 6>& basket, jv::Platform& platform){
+inline void ball_sink(int i, bn::vector<jv::Ball, 10>& basket, jv::Platform& platform){
     int direction = -1 + 2*((lives + level) % 2);
     if(basket[i].y() >= 80 + 8 && basket.size() > 0){      // There are extra lives left
         basket.erase(basket.begin() + i);
@@ -160,126 +183,89 @@ inline void ball_sink(int i, bn::vector<jv::Ball, 6>& basket, jv::Platform& plat
         gameover();
     }
 }
-inline void brick_break(jv::Ball& ball, bn::vector<jv::Brick, 35>& wall, bn::vector<jv::PowerUp, 6>& powerups){
+inline void brick_break(jv::Ball& ball, bn::vector<jv::Brick, 35>& wall, bn::vector<jv::PowerUp, 10>& powerups){
+    char b_x = 0, b_y = 0;
     for (int i = 0; i < wall.size(); i++) {
-        if (ball.get_rect().intersects(wall[i].get_rect())) {
-            // Ball is to the Sides
-            if((ball.x() >= wall[i].x() + 16 && ball.d_x() < 0) || (ball.x() <= wall[i].x() - 16 && ball.d_x() > 0)){
-                ball.set_delta(-ball.d_x(), ball.d_y());
-                bn::sound_items::ball_bounce.play(0.5);
-            }
-            // Ball is Above or Bellow
-            if((ball.y() <= wall[i].y() - 6 && ball.d_y() > 0) || (ball.y() >= wall[i].y() + 6 && ball.d_y() < 0)){
-                ball.set_delta(ball.d_x(), -ball.d_y());
-                bn::sound_items::ball_bounce.play(0.5);
+        if(ball.get_rect().intersects(wall[i].get_rect())) {
+            if(!ball.is_powerful()){
+                // Ball is to the Sides
+                if((ball.x() >= wall[i].x() + 15 && ball.d_x() < 0) || (ball.x() <= wall[i].x() - 15 && ball.d_x() > 0)){
+                    b_x++;
+                    ball.set_delta(-ball.d_x(), ball.d_y());
+                    bn::sound_items::ball_bounce.play(0.5);
+                }
+                // Ball is Above or Bellow
+                if((ball.y() >= wall[i].y() + 7 && ball.d_y() < 0) || (ball.y() <= wall[i].y() - 7 && ball.d_y() > 0)){
+                    b_y++;
+                    ball.set_delta(ball.d_x(), -ball.d_y());
+                    bn::sound_items::ball_bounce.play(0.5);
+                }
             }
 
             // Brick breaks
-            if(wall[i].is_powered()){
+            if(wall.size() > 0 && wall[i].is_powered() && powerups.size() < 10){
                 powerups.push_back(jv::PowerUp(wall[i].x(), wall[i].y(), wall[i].power()));
             }
             wall.erase(wall.begin() + i);
             score = score + 100;
+            i--;
 
-            break;
+            //break;
         }
     }
 }
 inline void brick_layer(int rows, int columns, char shape, bn::vector<jv::Brick, 35>& wall){
-    int brick_power = 0,
-        x_offset = -32*(columns-1)/2,
-        y_offset = -58;
-
-    switch(shape % 4){
-        case 0:     // Simple wall
+    int x_offset = -32*(columns-1)/2, y_offset = -58;
+    switch(shape % 5){
+        case jv::Shape::brickwall:
             for(int i = 0; i < columns; i++){
                 for(int j = 0; j < rows; j++){
-                    if(j == 1 && i == 1){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 2 && i == 1){
-                        brick_power = jv::Power::large;
-                    }else if(j == 1 && i == columns - 2){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 2 && i == columns - 2){
-                        brick_power = jv::Power::magnet;
-                    }else if((j == rows/2 && i == columns - 2) ||  (j == rows/2 && i == 1)){
-                        brick_power = jv::Power::multi;
-                    }else{
-                        brick_power = 0;
-                    }
-                    wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                    bn::sound_items::lay_brick.play(0.5);
+                    wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, rng()));
+                    bn::sound_items::lay_brick.play(1.0);
                     delay(10);
                 }
             }
         break;
-        case 1:     // Two columns
+        case jv::Shape::columns:
             for(int i = 0; i < columns; i++){
                 for(int j = 0; j < rows; j++){
-                    if(j == 1 && i == 1){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 2 && i == 1){
-                        brick_power = jv::Power::large;
-                    }else if(j == 1 && i == columns - 2){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 2 && i == columns - 2){
-                        brick_power = jv::Power::magnet;
-                    }else if((j == rows/2 && i == columns - 2) ||  (j == rows/2 && i == 1)){
-                        brick_power = jv::Power::multi;
-                    }else{
-                        brick_power = 0;
-                    }
                     if(i < 2 || i >= columns - 2){
-                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                        bn::sound_items::lay_brick.play(0.5);
+                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, rng()));
+                        bn::sound_items::lay_brick.play(1.0);
                         delay(10);
                     }
                 }
             }
         break;
-        case 2:     // Horizontal lines
+        case jv::Shape::rows:
             for(int i = 0; i < columns; i++){
                 for(int j = 0; j < rows; j++){
-                    if(j == 0 && i == 1){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 1 && i == 1){
-                        brick_power = jv::Power::large;
-                    }else if(j == 1 && i == columns - 2){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 1 && i == columns - 2){
-                        brick_power = jv::Power::magnet;
-                    }else if((j == rows/2 && i == columns - 2) ||  (j == rows/2 && i == 1)){
-                        brick_power = jv::Power::multi;
-                    }else{
-                        brick_power = 0;
-                    }
                     if(j % 2 == 0){
-                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                        bn::sound_items::lay_brick.play(0.5);
+                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, rng()));
+                        bn::sound_items::lay_brick.play(1.0);
                         delay(10);
                     }
                 }
             }
         break;
-        case 3:     // Checkered
+        case jv::Shape::checkered:
             for(int i = 0; i < columns; i++){
                 for(int j = 0; j < rows; j++){
-                    if(j == 1 && i == 1){
-                        brick_power = jv::Power::extra;
-                    }else if(j == rows - 2 && i == 1){
-                        brick_power = jv::Power::large;
-                    }else if(j == 1 && i == columns - 2){
-                        brick_power = jv::Power::jackpot;
-                    }else if(j == rows - 2 && i == columns - 2){
-                        brick_power = jv::Power::magnet;
-                    }else if((j == rows/2 && i == columns - 2) ||  (j == rows/2 && i == 1)){
-                        brick_power = jv::Power::multi;
-                    }else{
-                        brick_power = 0;
-                    }
                     if((i+j) % 2 == 0){
-                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, brick_power));
-                        bn::sound_items::lay_brick.play(0.5);
+                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, rng()));
+                        bn::sound_items::lay_brick.play(1.0);
+                        delay(10);
+                    }
+                }
+            }
+        break;
+        case jv::Shape::diamond:
+            for(int i = 0; i < columns; i++){
+                for(int j = 0; j < rows; j++){
+                    int x = j - rows/2, y = i - columns/2;
+                    if(x+y <= columns/2 && x+y >= -columns/2 && x-y >= -columns/2 && x-y <= columns/2){
+                        wall.push_back(jv::Brick(x_offset + 32*i, y_offset + 12*j, j, j+1, rng()));
+                        bn::sound_items::lay_brick.play(1.0);
                         delay(10);
                     }
                 }
@@ -316,7 +302,7 @@ inline void brick_animation(bn::vector<jv::Brick, 35>& wall){
     }
 }
 
-inline void ball_manager(bn::vector<jv::Ball, 6>& basket, bn::vector<jv::Brick, 35>& wall, bn::vector<jv::PowerUp, 6>& powerups, jv::Platform& platform){
+inline void ball_manager(bn::vector<jv::Ball, 10>& basket, bn::vector<jv::Brick, 35>& wall, bn::vector<jv::PowerUp, 10>& powerups, jv::Platform& platform){
     for(int i = 0; i < basket.size(); i++){
         ball_bounce(basket[i], platform);
         basket[i].roll(platform);
@@ -332,32 +318,38 @@ inline void platform_manager(jv::Platform& platform){
     }
     platform.magnet_decay();
 }
-inline void powerup_manager(bn::vector<jv::Ball, 6>& basket, bn::vector<jv::PowerUp, 6>& powerups, jv::Platform& platform){
+inline void powerup_manager(bn::vector<jv::Ball, 10>& basket, bn::vector<jv::PowerUp, 10>& powerups, jv::Platform& platform){
     for(int i = 0; i < powerups.size(); i++){
         powerups[i].set_y(powerups[i].y() + bn::fixed(0.5));
 
         if(platform.get_rect().intersects(powerups[i].get_rect())){
             switch(powerups[i].power()){
-                case jv::Power::extra:
-                    score = score + 100;
-                    lives++;
-                break;
                 case jv::Power::large:
                     score = score + 100;
                     platform.grow();
                 break;
                 case jv::Power::multi:
                     score = score + 100;
-                    if(basket.size() < 6){
+                    if(basket.size() < 10){
                         basket.push_back(jv::Ball(basket[0].x(), basket[0].y(),  basket[0].d_x(), basket[0].d_y()));
                     }
-                break;
-                case jv::Power::jackpot:
-                    score = score + 2000;
                 break;
                 case jv::Power::magnet:
                     score = score + 100;
                     platform.set_magnetic(true);
+                break;
+                case jv::Power::jackpot:
+                    score = score + 3000;
+                break;
+                case jv::Power::extra:
+                    score = score + 100;
+                    lives++;
+                break;
+                case jv::Power::powerful:
+                    score = score + 100;
+                    for(unsigned char j = 0; j < basket.size(); j++){
+                        basket[j].set_powerful();
+                    }
                 break;
 
                 default:
@@ -380,18 +372,21 @@ inline void level_manager(bn::vector<jv::Brick, 35>& wall, bn::regular_bg_ptr& g
     }
 
     // Brick Layout
-    switch((level-1) % 4){
-        case 0:
+    switch((level-1) % 5){
+        case jv::Shape::brickwall:
             brick_layer(5, 6, level-1, wall);
         break;
-        case 1:
+        case jv::Shape::columns:
             brick_layer(7, 5, level-1, wall);
         break;
-        case 2:
+        case jv::Shape::rows:
             brick_layer(5, 6, level-1, wall);
         break;
-        case 3:
+        case jv::Shape::checkered:
             brick_layer(5, 6, level-1, wall);
+        break;
+        case jv::Shape::diamond:
+            brick_layer(5, 5, level, wall);
         break;
 
         default:

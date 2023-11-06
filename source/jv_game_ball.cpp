@@ -1,28 +1,18 @@
 #include "jv_game_ball.h"
 
 namespace jv
-{
-Ball::Ball(bn::fixed x = 0, bn::fixed y = 16) :
-    _ball(bn::sprite_items::ball.create_sprite(x, y)),
-    _ball_position(bn::fixed_point(x, y)),
-    _delta_x(0),
-    _delta_y(0),
-    _stuck_x(0),
-    _ball_rect(x.round_integer(), y.round_integer(), 8, 8),
-    _stuck(false)
-{
-    _ball.set_z_order(1);
-}
-Ball::Ball(bn::fixed x, bn::fixed y, bn::fixed d_x, bn::fixed d_y) :
+{Ball::Ball(bn::fixed x, bn::fixed y, bn::fixed d_x, bn::fixed d_y) :
     _ball(bn::sprite_items::ball.create_sprite(x, y)),
     _ball_position(bn::fixed_point(x, y)),
     _delta_x(d_x),
     _delta_y(d_y),
     _stuck_x(0),
     _ball_rect(x.round_integer(), y.round_integer(), 8, 8),
+    _powerful(0),
     _stuck(false)
 {
     _ball.set_z_order(1);
+    _ball.set_blending_enabled(true);
 }
 Ball::~Ball() = default;
 
@@ -49,21 +39,24 @@ void Ball::set_y(bn::fixed y){
     _ball_rect.set_y(y.round_integer());
 }
 
-void Ball::set_stuck_x(bn::fixed stuck_x){
-    _stuck_x = stuck_x;
-}
-
 void Ball::set_delta(bn::fixed d_x, bn::fixed d_y){
     _delta_x = d_x;
     _delta_y = d_y;
 }
 
+void Ball::set_stuck_x(bn::fixed stuck_x){
+    _stuck_x = stuck_x;
+}
 void Ball::set_stuck(bool stuck){
     _stuck = stuck;
 }
-
 void Ball::toggle_stuck(){
     _stuck = !_stuck;
+}
+
+void Ball::set_powerful(){
+    _ball.set_tiles(bn::sprite_items::ball.tiles_item().create_tiles(1));
+    _powerful = 60 * 3;
 }
 
 void Ball::erase(){
@@ -78,6 +71,11 @@ void Ball::roll(jv::Platform& platform){
         this->set_y(_ball_position.y() + _delta_y * bn::fixed(1.5));
     }else{
         this->set_position(platform.x() - _stuck_x, _ball_position.y());
+    }
+    if(_powerful){
+        _powerful--;
+    }else{
+        _ball.set_tiles(bn::sprite_items::ball.tiles_item().create_tiles(0));
     }
 }
 // **************** roll be here ****************

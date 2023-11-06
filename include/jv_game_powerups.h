@@ -16,27 +16,26 @@ namespace jv
 class PowerUp
 {
 public:
-PowerUp(bn::fixed x, bn::fixed y, int power);
-PowerUp(int x, int y, int power);
+    PowerUp(int x, int y, char power, char z = 0);
 
-// Setters
-void set_y(bn::fixed y);
+    // Setters
+    void set_y(bn::fixed y);
 
-// Getters
-[[nodiscard]] bn::fixed x(){
-    return _pu_position.x();
-}
-[[nodiscard]] bn::fixed y(){
-    return _pu_position.y();
-}
+    // Getters
+    [[nodiscard]] bn::fixed x(){
+        return _pu_position.x();
+    }
+    [[nodiscard]] bn::fixed y(){
+        return _pu_position.y();
+    }
 
-[[nodiscard]] int power(){
-    return _power;
-}
+    [[nodiscard]] int power(){
+        return _power;
+    }
 
-[[nodiscard]] bn::rect get_rect(){
-    return _pu_rect;
-}
+    [[nodiscard]] bn::rect get_rect(){
+        return _pu_rect;
+    }
 
 private:
     bn::sprite_ptr _pu;

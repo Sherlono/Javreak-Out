@@ -7,12 +7,12 @@
 
 //======================================================================
 //
-//	power_up_bn_gfx, 16x96@4, 
+//	power_up_bn_gfx, 16x128@4, 
 //	+ palette 16 entries, not compressed
-//	+ 24 tiles not compressed
-//	Total size: 32 + 768 = 800
+//	+ 32 tiles not compressed
+//	Total size: 32 + 1024 = 1056
 //
-//	Time-stamp: 2023-09-19, 14:33:49
+//	Time-stamp: 2023-11-01, 23:45:57
 //	Exported by Cearn's GBA Image Transmogrifier, v0.9.2
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -21,8 +21,8 @@
 #ifndef GRIT_POWER_UP_BN_GFX_H
 #define GRIT_POWER_UP_BN_GFX_H
 
-#define power_up_bn_gfxTilesLen 768
-extern const bn::tile power_up_bn_gfxTiles[24];
+#define power_up_bn_gfxTilesLen 1024
+extern const bn::tile power_up_bn_gfxTiles[32];
 
 #define power_up_bn_gfxPalLen 32
 extern const bn::color power_up_bn_gfxPal[16];
@@ -34,7 +34,7 @@ extern const bn::color power_up_bn_gfxPal[16];
 namespace bn::sprite_items
 {
     constexpr inline sprite_item power_up(sprite_shape_size(sprite_shape::SQUARE, sprite_size::NORMAL), 
-            sprite_tiles_item(span<const tile>(power_up_bn_gfxTiles, 24), bpp_mode::BPP_4, compression_type::NONE, 6), 
+            sprite_tiles_item(span<const tile>(power_up_bn_gfxTiles, 32), bpp_mode::BPP_4, compression_type::NONE, 8), 
             sprite_palette_item(span<const color>(power_up_bn_gfxPal, 16), bpp_mode::BPP_4, compression_type::NONE));
 }
 

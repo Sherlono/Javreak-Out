@@ -66,6 +66,7 @@ main.o: \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_vector.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_ptr.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_string_view.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_random.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_level1_bg.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_regular_bg_item.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_bg_palette_item.h \
@@ -77,6 +78,7 @@ main.o: \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_level3_bg.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_title_screen.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_intro1.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_attract1_bg.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/common/include/common_variable_8x8_sprite_font.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_font.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_utf8_characters_map.h \
@@ -95,6 +97,7 @@ main.o: \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_yellow_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_green_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_purple_brick.h \
+ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_orange_brick.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_platform.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_tiles_ptr.h \
  C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_fixed_point.h \
@@ -177,6 +180,7 @@ C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_span.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_vector.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_ptr.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_string_view.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_random.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_level1_bg.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_regular_bg_item.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_bg_palette_item.h:
@@ -188,6 +192,7 @@ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_b
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_level3_bg.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_title_screen.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_intro1.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_regular_bg_items_attract1_bg.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/common/include/common_variable_8x8_sprite_font.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_font.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_utf8_characters_map.h:
@@ -206,6 +211,7 @@ C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_pa
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_yellow_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_green_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_purple_brick.h:
+C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/build/bn_sprite_palette_items_orange_brick.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/games/Javreak-Out/include/jv_game_platform.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_sprite_tiles_ptr.h:
 C:/Users/javie/Desktop/GBADEV/butano-master/butano/include/bn_fixed_point.h:
