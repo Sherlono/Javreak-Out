@@ -25,25 +25,26 @@
 #
 # All directories are specified relative to the project directory where the makefile is found.
 #---------------------------------------------------------------------------------------------------------------------
-TARGET      :=  $(notdir $(CURDIR))
-BUILD       :=  build
-LIBBUTANO   :=  ../../butano
-PYTHON      :=  python
-SOURCES     :=  source ../../common/source
-INCLUDES    :=  include ../../common/include
-DATA        :=
-GRAPHICS    :=  graphics ../../common/graphics
-AUDIO       :=  audio ../../common/audio
-DMGAUDIO    :=  dmg_audio ../../common/dmg_audio
-ROMTITLE    :=  Javreak-Out
-ROMCODE     :=  JVBO
-USERFLAGS   :=  
-USERASFLAGS :=  
-USERLDFLAGS :=  
-USERLIBDIRS :=  
-USERLIBS    :=  
-USERBUILD   :=  
-EXTTOOL     :=  
+TARGET      	:=  $(notdir $(CURDIR))
+BUILD       	:=  build
+LIBBUTANO   	:=  ../../butano/butano
+PYTHON      	:=  python
+SOURCES     	:=  source ../../butano/common/src
+INCLUDES    	:=  include ../../butano/common/include
+DATA        	:=
+GRAPHICS    	:=  graphics ../../butano/common/graphics
+AUDIO       	:=  audio ../../butano/common/audio
+AUDIOBACKEND	:=  maxmod
+DMGAUDIO    	:=  dmg_audio ../../butano/common/dmg_audio
+ROMTITLE    	:=  Javreak-Out
+ROMCODE     	:=  JVBO
+USERFLAGS   	:=  
+USERASFLAGS 	:=  
+USERLDFLAGS 	:=  
+USERLIBDIRS 	:=  
+USERLIBS    	:=  
+USERBUILD   	:=  
+EXTTOOL     	:=  
 
 #---------------------------------------------------------------------------------------------------------------------
 # Export absolute butano path:
